@@ -4,11 +4,12 @@ class GroupsController < ApplicationController
   respond_to :html
 
   def index
-    @groups = Group.all
+    @groups = current_user.groups
     respond_with(@groups)
   end
 
   def show
+    @group = current_user.groups.find(params[:id])
     respond_with(@group)
   end
 
@@ -21,12 +22,8 @@ class GroupsController < ApplicationController
   end
 
   def create
-    #find the current user creating the group
-    @user = current_user.id
-    @group = Group.new(group_params)
-    @group.save
-    #create the memership for the group and pass through the group id, and user creating the group id
-    @membership = Membership.create(group_id: @group.id, user_id: @user)
+    #create a group ans save the current user to it
+    @group = current_user.groups.create group_params
     respond_with(@group)
   end
 
