@@ -24,6 +24,7 @@ class GroupsController < ApplicationController
   def create
     #create a group ans save the current user to it
     @group = current_user.groups.create group_params
+    current_user.memberships.find_by!(group_id: @group.id).accept
     respond_with(@group)
   end
 
