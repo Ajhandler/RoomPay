@@ -21,8 +21,12 @@ class GroupsController < ApplicationController
   end
 
   def create
+    #find the current user creating the group
+    @user = current_user.id
     @group = Group.new(group_params)
     @group.save
+    #create the memership for the group and pass through the group id, and user creating the group id
+    @membership = Membership.create(group_id: @group.id, user_id: @user)
     respond_with(@group)
   end
 
