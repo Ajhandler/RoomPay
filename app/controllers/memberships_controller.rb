@@ -1,5 +1,6 @@
 class MembershipsController < ApplicationController
 	def new
+		@membership = Membership.new 
 	end
 	def create
 		user =	User.find_by!(email: member_params[:email])
